@@ -1,0 +1,9 @@
+*.DS_Store
+._*
+
+## User settings
+xcuserdata/
+## Xcode
+xcconfig/
+*.xcodeproj
+*.xcworkspace
