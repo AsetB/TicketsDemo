@@ -7,6 +7,13 @@
 
 import Foundation
 
-struct Events: Decodable {
+struct Events: Decodable, Identifiable {
+    struct Price: Decodable {
+        let value: Int
+    }
     
+    let id: Int
+    let title: String
+    let town: String
+    let price: Price
 }

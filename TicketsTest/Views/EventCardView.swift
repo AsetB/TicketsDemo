@@ -8,26 +8,28 @@
 import SwiftUI
 
 struct EventCardView: View {
+    let events: Events
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Image(.artist1)
+            Image("artist_\(events.id)")
                 .resizable()
                 .scaledToFill()
                 .frame(width: 132, height: 132)
             .clipShape(RoundedRectangle(cornerRadius: 16))
             
-            Text("Die Antwoord")
+            Text(events.title)
                 .foregroundStyle(Color.white)
                 .font(.addSFProDisplay(ofSize: 16, weight: .semibold))
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("Будапешт")
+                Text(events.town)
                     .foregroundStyle(Color.white)
                     .font(.addSFProDisplay(ofSize: 14))
                 HStack(alignment: .center) {
                     Image(.planeCard)
                         .foregroundStyle(Color.searchPlaceholder)
-                    Text("от 22 264 ₽")
+                    Text("от \(events.price.value.getFormattedCurrency()) ₽")
                         .foregroundStyle(Color.white)
                         .font(.addSFProDisplay(ofSize: 14))
                 }
@@ -37,6 +39,6 @@ struct EventCardView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    EventCardView()
+    EventCardView(events: Events(id: 1, title: "Die Antwoord", town: "Будапешт", price: .init(value: 123)))
         .background(Color.appBackground)
 }

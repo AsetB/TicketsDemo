@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TicketsTabView: View {
+    @ObservedObject var viewModel: TicketsTabViewModel = TicketsTabViewModel()
     
     @State var from: String = "Минск"
     @State var destination: String = ""
@@ -57,9 +58,9 @@ struct TicketsTabView: View {
                     
                     ScrollView(.horizontal) {
                         HStack(spacing: 24) {
-                           EventCardView()
-                            EventCardView()
-                            EventCardView()
+                            ForEach(viewModel.eventsArray, id: \.id) { event in
+                                EventCardView(events: event)
+                            }
                         }
                     }
                 }
@@ -67,6 +68,9 @@ struct TicketsTabView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(Color.appBackground)
+        }
+        .onAppear {
+            viewModel.fetchEvents()
         }
     }
 }
