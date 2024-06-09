@@ -13,6 +13,12 @@ struct TicketsTabView: View {
     @State var from: String = "Минск"
     @State var destination: String = ""
     
+    @State var isSearchPresented: Bool = false
+    
+    func showSearchSheet() {
+        isSearchPresented = true
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 32) {
@@ -29,7 +35,7 @@ struct TicketsTabView: View {
                                 .padding(.leading, 8)
                             
                             VStack(spacing: 8) {
-                                SearchInputView(value: $from, placeholder: "Откуда - Минск")
+                                SearchInputView(value: $from, action: showSearchSheet, placeholder: "Откуда - Минск")
                                 
                                 Divider()
                                     .background(Color.searchDivider)
@@ -44,6 +50,8 @@ struct TicketsTabView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .background(Color.outerGray1)
+                    .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.33),
+                            radius: 3, x: 0, y: 5)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
                 .padding(.top, 26)
@@ -63,6 +71,7 @@ struct TicketsTabView: View {
                             }
                         }
                     }
+                    .contentMargins(.horizontal, 16)
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -72,6 +81,13 @@ struct TicketsTabView: View {
         .onAppear {
             viewModel.fetchEvents()
         }
+        .sheet(isPresented: $isSearchPresented, content: {
+            SearchSheetView()
+                .presentationDetents([.large])
+                .presentationCornerRadius(16)
+        })
+        
+       
     }
 }
 

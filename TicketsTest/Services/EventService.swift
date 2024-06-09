@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+//Events for main screen
 struct EventResponse: Decodable {
     let offers: [Events]
 }
@@ -19,7 +20,7 @@ protocol EventServiceProtocol {
 class EventService: EventServiceProtocol {
     
     private let apiClient: APIClient
-    
+        
     init(apiClient: APIClient = .shared) {
         self.apiClient = apiClient
     }
@@ -27,6 +28,4 @@ class EventService: EventServiceProtocol {
     func fetchEvents() -> AnyPublisher<EventResponse, Error> {
         return apiClient.request(url: URLs.mainScreenURL)
     }
-    
-    
 }
