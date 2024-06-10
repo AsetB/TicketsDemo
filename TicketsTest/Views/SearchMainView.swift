@@ -11,6 +11,8 @@ struct SearchMainView: View {
     
     @ObservedObject var viewModel: SearchMainViewModel = SearchMainViewModel()
     
+    @State private var isPriceSubscribed: Bool = false
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 18) {
@@ -108,6 +110,19 @@ struct SearchMainView: View {
                                     FlightsListItem(tickets: flight)
                                 }
                             }
+                            //button - показать все
+                            HStack {
+                                Spacer()
+                                VStack(alignment: .center) {
+                                    Button("Показать все") {
+                                        print("show all pressed")
+                                    }
+                                    .font(.addSFProDisplay(ofSize: 16, weight: .semibold))
+                                }
+                                .padding(.vertical, 10)
+                                .frame(alignment: .center)
+                                Spacer()
+                            }
                             
                         }
                         .background(Color.outerGray11)
@@ -120,6 +135,37 @@ struct SearchMainView: View {
                 }
                 VStack(spacing: 24) {
                     //кнопка и подписка
+                    VStack(alignment: .center) {
+                        Button("Посмотреть все билеты") {
+                            print("show all tickets")
+                        }
+                        .font(.addSFProDisplay(ofSize: 16, weight: .mediumItalic))
+                        .foregroundStyle(Color.white)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: 42)
+                    .padding(.vertical, 5)
+                    .background(Color.blue1)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    
+                    VStack {
+                        HStack {
+                            Image(systemName: "bell.fill")
+                                .foregroundStyle(Color.blue1)
+                                .frame(width: 24, height: 24)
+                            Text("Подписка на цену")
+                                .font(.addSFProDisplay(ofSize: 16))
+                                .foregroundStyle(Color.white)
+                            Spacer()
+                            Button("", image: isPriceSubscribed ? .toggleOn : .toggleOff) {
+                                isPriceSubscribed.toggle()
+                            }
+                            .frame(width: 50, height: 30)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 14)
+                    }
+                    .background(Color.outerGray3)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
             }
         }

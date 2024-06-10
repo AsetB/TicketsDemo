@@ -14,6 +14,7 @@ extension Font {
         case medium = "Medium"
         case semibold = "Semibold"
         case mediumItalic = "MediumItalic"
+        case semiboldItalic = "SemiboldItalic"
     }
     
     static func addSFProDisplay(ofSize size: CGFloat, weight: SFProDisplayWeights = .regular) -> Font {
