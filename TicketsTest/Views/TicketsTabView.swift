@@ -40,7 +40,7 @@ struct TicketsTabView: View {
                                 Divider()
                                     .background(Color.searchDivider)
                                 
-                                SearchInputView(value: $destination, placeholder: "Куда - Турция")
+                                SearchInputView(value: $destination, action: showSearchSheet, placeholder: "Куда - Турция")
                             }
                             .padding(16)
                         }

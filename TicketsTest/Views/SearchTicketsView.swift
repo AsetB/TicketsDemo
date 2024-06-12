@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchTicketsView: View {
     @ObservedObject var viewModel: SearchTicketsViewModel = SearchTicketsViewModel()
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         //Общий контейнер
@@ -20,6 +21,9 @@ struct SearchTicketsView: View {
                         Image(.arrowLeft)
                             .frame(width: 24, height: 24)
                             .foregroundStyle(Color.blue1)
+                            .onTapGesture {
+                                dismiss()
+                            }
                         VStack(alignment: .leading ,spacing: 4) {
                             Text("Москва-Сочи")
                                 .font(.addSFProDisplay(ofSize: 16, weight: .semibold))
