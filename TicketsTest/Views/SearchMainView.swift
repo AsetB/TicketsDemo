@@ -107,7 +107,7 @@ struct SearchMainView: View {
                             //items
                             VStack(spacing: 8) {
                                 ForEach(viewModel.flightsOffers, id: \.id) { flight in
-                                    FlightsListItem(tickets: flight)
+                                    FlightsListItem(flights: flight)
                                 }
                             }
                             //button - показать все

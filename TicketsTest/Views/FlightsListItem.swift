@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FlightsListItem: View {
-    let tickets: Flights
+    let flights: Flights
     
     private func cirleColor(id: Int) -> Color {
         switch id {
@@ -27,16 +27,16 @@ struct FlightsListItem: View {
         HStack(alignment: .top) {
             Image(systemName: "circle.fill")
                 .frame(width: 24, height: 24)
-                .foregroundStyle(cirleColor(id: tickets.id))
+                .foregroundStyle(cirleColor(id: flights.id))
             
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text(tickets.title)
+                    Text(flights.title)
                         .font(.addSFProDisplay(ofSize: 14, weight: .mediumItalic))
                         .foregroundStyle(Color.white)
                     Spacer()
                     HStack(spacing: 0) {
-                        Text("\(tickets.price.value.getFormattedCurrency()) ₽")
+                        Text("\(flights.price.value.getFormattedCurrency()) ₽")
                             .font(.addSFProDisplay(ofSize: 14, weight: .mediumItalic))
                             .foregroundStyle(Color.blue1)
                         Image(.arrowShortRight)
@@ -45,7 +45,7 @@ struct FlightsListItem: View {
                     }
                 }
                 HStack {
-                    ForEach(tickets.timeRange, id: \.self) { time in
+                    ForEach(flights.timeRange, id: \.self) { time in
                         Text(time)
                             .font(.addSFProDisplay(ofSize: 14))
                             .foregroundStyle(Color.white)
@@ -65,5 +65,5 @@ struct FlightsListItem: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    FlightsListItem(tickets: Flights(id: 1, title: "Уральские авиалинии", timeRange: ["13:10", "13:10","13:10"], price: .init(value: 4999)))
+    FlightsListItem(flights: Flights(id: 1, title: "Уральские авиалинии", timeRange: ["13:10", "13:10","13:10"], price: .init(value: 4999)))
 }
