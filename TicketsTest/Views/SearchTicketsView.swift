@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchTicketsView: View {
-    @ObservedObject var viewModel: SearchTicketsViewModel = SearchTicketsViewModel()
+    @StateObject var viewModel: SearchTicketsViewModel = SearchTicketsViewModel()
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -25,7 +25,13 @@ struct SearchTicketsView: View {
                                 dismiss()
                             }
                         VStack(alignment: .leading ,spacing: 4) {
-                            Text("Москва-Сочи")
+                            Text(viewModel.from)
+                                .font(.addSFProDisplay(ofSize: 16, weight: .semibold))
+                                .foregroundStyle(Color.white) +
+                            Text("-")
+                                .font(.addSFProDisplay(ofSize: 16, weight: .semibold))
+                                .foregroundStyle(Color.white) +
+                            Text(viewModel.destination)
                                 .font(.addSFProDisplay(ofSize: 16, weight: .semibold))
                                 .foregroundStyle(Color.white)
                             Text("23 февраля, 1 пассажир")

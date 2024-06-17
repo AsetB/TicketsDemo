@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchMainView: View {
     
-    @ObservedObject var viewModel: SearchMainViewModel = SearchMainViewModel()
+    @StateObject var viewModel: SearchMainViewModel = SearchMainViewModel()
     
     @State private var isPriceSubscribed: Bool = false
     @State private var showSearchTicketView: Bool = false
@@ -32,9 +32,10 @@ struct SearchMainView: View {
                                 }
                             VStack(spacing: 8) {
                                 HStack {
-                                    Text("Минск")
-                                        .foregroundStyle(Color.white)
-                                        .font(.addSFProDisplay(ofSize: 16, weight: .semibold))
+                                    TextField("", text: $viewModel.from, prompt: Text("Откуда - Минск")
+                                        .foregroundStyle(Color.searchPlaceholder)
+                                        .font(.addSFProDisplay(ofSize: 16, weight: .semibold)))
+                                    .foregroundStyle(Color.searchText)
                                     Spacer()
                                     Image(.changeCities)
                                         .foregroundStyle(.white)
@@ -42,9 +43,10 @@ struct SearchMainView: View {
                                 Divider()
                                     .background(Color.searchDivider)
                                 HStack {
-                                    Text("Сочи")
-                                        .foregroundStyle(Color.white)
-                                        .font(.addSFProDisplay(ofSize: 16, weight: .semibold))
+                                    TextField("", text: $viewModel.destination, prompt: Text("Куда - Турция")
+                                        .foregroundStyle(Color.searchPlaceholder)
+                                        .font(.addSFProDisplay(ofSize: 16, weight: .semibold)))
+                                    .foregroundStyle(Color.searchText)
                                     Spacer()
                                     Image(.cross)
                                         .foregroundStyle(.white)
@@ -184,6 +186,7 @@ struct SearchMainView: View {
         }
         .onAppear {
             viewModel.fetchFlights()
+            viewModel.loadRoutes()
         }
     }
 }

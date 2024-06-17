@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchInputView: View {
     
-    @Binding var value: String
+    var value: String
     
     var action: (() -> Void)?
     
@@ -31,7 +31,7 @@ struct SearchInputView: View {
     struct Preview: View {
         @State var value: String = ""
         var body: some View {
-            SearchInputView(value: $value, placeholder: "Куда - Турция")
+            SearchInputView(value: value, placeholder: "Куда - Турция")
         }
     }
 

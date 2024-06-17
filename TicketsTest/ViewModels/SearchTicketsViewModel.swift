@@ -13,10 +13,23 @@ class SearchTicketsViewModel: ObservableObject {
     
     @Published var ticketsOffers: [Tickets] = []
     
+    @Published var from: String = "" {
+        didSet {
+            saveFrom()
+        }
+    }
+    @Published var destination: String = "" {
+        didSet {
+            saveDestination()
+        }
+    }
+    
     let ticketService: TicketServiceProtocol
     
     init(ticketService: TicketServiceProtocol = TicketService()) {
         self.ticketService = ticketService
+        loadFrom()
+        loadDestination()
     }
     
     func fetchTickets() {
@@ -32,5 +45,30 @@ class SearchTicketsViewModel: ObservableObject {
                 self.ticketsOffers = response.tickets
             }
             .store(in: &cancellables)
+    }
+
+    func loadRoutes() {
+        loadFrom()
+        loadDestination()
+    }
+    
+    private func saveDestination() {
+        UserDefaults.standard.set(destination, forKey: DestinationKey.destination.rawValue)
+    }
+    
+    private func saveFrom() {
+        UserDefaults.standard.set(from, forKey: DestinationKey.from.rawValue)
+    }
+    
+    func loadDestination() {
+        if let savedDestination = UserDefaults.standard.string(forKey: DestinationKey.destination.rawValue) {
+            destination = savedDestination
+        }
+    }
+    
+    func loadFrom() {
+        if let savedFrom = UserDefaults.standard.string(forKey: DestinationKey.from.rawValue) {
+            from = savedFrom
+        }
     }
 }

@@ -9,8 +9,9 @@ import SwiftUI
 
 struct SearchSheetView: View {
     
-    @State var from: String = "Минск"
-    @State var destination: String = ""
+    @StateObject var viewModel: SearchSheetViewModel = SearchSheetViewModel()
+    //@State var from: String = "Минск"
+    //@State var destination: String = ""
     
     @State var isFromSelected = false
     
@@ -28,7 +29,7 @@ struct SearchSheetView: View {
                     HStack(alignment: .center, spacing: 8) {
                         Image(.planeSearch)
                             .foregroundColor(Color.searchDivider)
-                        TextField("", text: $from, prompt: Text("Откуда - Минск")
+                        TextField("", text: $viewModel.from, prompt: Text("Откуда - Минск")
                             .foregroundStyle(Color.searchPlaceholder)
                             .font(.addSFProDisplay(ofSize: 16, weight: .semibold)))
                         .foregroundStyle(Color.searchText)
@@ -46,7 +47,7 @@ struct SearchSheetView: View {
                     HStack(alignment: .center, spacing: 8) {
                         Image(.search)
                             .foregroundColor(Color.searchDivider)
-                        TextField("", text: $destination, prompt: Text("Куда - Турция")
+                        TextField("", text: $viewModel.destination, prompt: Text("Куда - Турция")
                             .foregroundStyle(Color.searchPlaceholder)
                             .font(.addSFProDisplay(ofSize: 16, weight: .semibold)))
                         .foregroundStyle(Color.searchText)
@@ -91,12 +92,15 @@ struct SearchSheetView: View {
 //                    .navigationBarBackButtonHidden()
 //            }
         }
+        .onAppear {
+            viewModel.loadRoutes()
+        }
         
         
     }
     
     private func checkFields() {
-        if !from.isEmpty && !destination.isEmpty {
+        if !viewModel.from.isEmpty && !viewModel.destination.isEmpty {
             showSearchMainView = true
         }
     }

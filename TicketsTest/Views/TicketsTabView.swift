@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct TicketsTabView: View {
-    @ObservedObject var viewModel: TicketsTabViewModel = TicketsTabViewModel()
+    @StateObject var viewModel: TicketsTabViewModel = TicketsTabViewModel()
     
-    @State var from: String = "Минск"
-    @State var destination: String = ""
+    //@State var from: String = "Минск"
+    //@State var destination: String = ""
     
     @State var isSearchPresented: Bool = false
     
@@ -35,12 +35,12 @@ struct TicketsTabView: View {
                                 .padding(.leading, 8)
                             
                             VStack(spacing: 8) {
-                                SearchInputView(value: $from, action: showSearchSheet, placeholder: "Откуда - Минск")
+                                SearchInputView(value: viewModel.from, action: showSearchSheet, placeholder: "Откуда - Минск")
                                 
                                 Divider()
                                     .background(Color.searchDivider)
                                 
-                                SearchInputView(value: $destination, action: showSearchSheet, placeholder: "Куда - Турция")
+                                SearchInputView(value: viewModel.destination, action: showSearchSheet, placeholder: "Куда - Турция")
                             }
                             .padding(16)
                         }
@@ -81,7 +81,9 @@ struct TicketsTabView: View {
         .onAppear {
             viewModel.fetchEvents()
         }
-        .sheet(isPresented: $isSearchPresented, content: {
+        .sheet(isPresented: $isSearchPresented, onDismiss: {
+            viewModel.loadRoutes()
+        }, content: {
             SearchSheetView()
                 .presentationDetents([.large])
                 .presentationCornerRadius(16)
