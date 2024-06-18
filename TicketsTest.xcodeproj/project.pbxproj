@@ -46,6 +46,8 @@
 		DB2D8BF32C12405A00329CFF /* TicketsTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2D8BF22C12405A00329CFF /* TicketsTabViewModel.swift */; };
 		DB2D8BF52C12445400329CFF /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2D8BF42C12445400329CFF /* Int+Extension.swift */; };
 		DB3AF88E2C178B4A00ECF079 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3AF88D2C178B4A00ECF079 /* DateFormatter.swift */; };
+		DB822F9B2C216AB100405763 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB822F9A2C216AB100405763 /* DatePickerView.swift */; };
+		DB822F9D2C21821900405763 /* PlugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB822F9C2C21821900405763 /* PlugView.swift */; };
 		DB85BDC42C2062250030CE79 /* DestinationKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB85BDC32C2062250030CE79 /* DestinationKey.swift */; };
 		DB87FB182C1F7016003ED774 /* SearchSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB87FB172C1F7016003ED774 /* SearchSheetViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -92,6 +94,8 @@
 		DB2D8BF22C12405A00329CFF /* TicketsTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsTabViewModel.swift; sourceTree = "<group>"; };
 		DB2D8BF42C12445400329CFF /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		DB3AF88D2C178B4A00ECF079 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		DB822F9A2C216AB100405763 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
+		DB822F9C2C21821900405763 /* PlugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlugView.swift; sourceTree = "<group>"; };
 		DB85BDC32C2062250030CE79 /* DestinationKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationKey.swift; sourceTree = "<group>"; };
 		DB87FB172C1F7016003ED774 /* SearchSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSheetViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -189,6 +193,8 @@
 				DB07448C2C13442A002C0CE7 /* FlightsListItem.swift */,
 				DB0744982C170373002C0CE7 /* TicketListItem.swift */,
 				DB07449A2C1719DB002C0CE7 /* SearchTicketsView.swift */,
+				DB822F9A2C216AB100405763 /* DatePickerView.swift */,
+				DB822F9C2C21821900405763 /* PlugView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -338,6 +344,7 @@
 				DB0744892C1305E4002C0CE7 /* SearchSheetView.swift in Sources */,
 				DB2D8BEA2C11E38A00329CFF /* APIClient.swift in Sources */,
 				DB0744952C162CDA002C0CE7 /* SearchMainViewModel.swift in Sources */,
+				DB822F9B2C216AB100405763 /* DatePickerView.swift in Sources */,
 				DB0744912C138AFF002C0CE7 /* Flights.swift in Sources */,
 				DB07449F2C172B53002C0CE7 /* TicketService.swift in Sources */,
 				DB85BDC42C2062250030CE79 /* DestinationKey.swift in Sources */,
@@ -350,6 +357,7 @@
 				DB2D8BB32C0F0F6300329CFF /* TicketsTestApp.swift in Sources */,
 				DB0744862C12FBBD002C0CE7 /* FastActionsView.swift in Sources */,
 				DB2D8BD42C0F3F9B00329CFF /* ShorterTabView.swift in Sources */,
+				DB822F9D2C21821900405763 /* PlugView.swift in Sources */,
 				DB0744822C12F24D002C0CE7 /* TabItems.swift in Sources */,
 				DB2D8BF32C12405A00329CFF /* TicketsTabViewModel.swift in Sources */,
 				DB2D8BDB2C10640700329CFF /* Events.swift in Sources */,

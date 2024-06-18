@@ -10,9 +10,10 @@ import SwiftUI
 struct SearchMainView: View {
     
     @StateObject var viewModel: SearchMainViewModel = SearchMainViewModel()
-    
     @State private var isPriceSubscribed: Bool = false
-    @State private var showSearchTicketView: Bool = false
+    @State private var isSearchTicketViewPresented: Bool = false
+    @State private var isDatePickerPresented: Bool = false
+    @State private var choosenDate: Date = Date.now
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -39,6 +40,12 @@ struct SearchMainView: View {
                                     Spacer()
                                     Image(.changeCities)
                                         .foregroundStyle(.white)
+                                        .onTapGesture {
+                                            let a = viewModel.destination
+                                            let b = viewModel.from
+                                            viewModel.destination = b
+                                            viewModel.from = a
+                                        }
                                 }
                                 Divider()
                                     .background(Color.searchDivider)
@@ -50,6 +57,9 @@ struct SearchMainView: View {
                                     Spacer()
                                     Image(.cross)
                                         .foregroundStyle(.white)
+                                        .onTapGesture {
+                                            viewModel.destination = ""
+                                        }
                                 }
                             }
                         }
@@ -70,15 +80,21 @@ struct SearchMainView: View {
                                 .padding(.horizontal, 10)
                                 .background(Color.outerGray1)
                                 .clipShape(RoundedRectangle(cornerRadius: 50))
+                                .onTapGesture {
+                                    isDatePickerPresented = true
+                                }
                                 
                                 HStack(spacing: 8) {
-                                    Text("24 фев, сб")
+                                    Text(currentDateFormatted(for: viewModel.choosenDate) ?? "")
                                         .foregroundStyle(.white)
                                 }
                                 .padding(.vertical, 8)
                                 .padding(.horizontal, 10)
                                 .background(Color.outerGray1)
                                 .clipShape(RoundedRectangle(cornerRadius: 50))
+                                .onTapGesture {
+                                    isDatePickerPresented = true
+                                }
                                 
                                 HStack(spacing: 8) {
                                     Image(systemName: "person.fill")
@@ -145,7 +161,7 @@ struct SearchMainView: View {
                         //кнопка и подписка
                         VStack(alignment: .center) {
                             Button("Посмотреть все билеты") {
-                                showSearchTicketView = true
+                                isSearchTicketViewPresented = true
                             }
                             .font(.addSFProDisplay(ofSize: 16, weight: .mediumItalic))
                             .foregroundStyle(Color.white)
@@ -176,10 +192,17 @@ struct SearchMainView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                 }
-                .navigationDestination(isPresented: $showSearchTicketView) {
+                .navigationDestination(isPresented: $isSearchTicketViewPresented) {
                     SearchTicketsView()
                         .navigationBarBackButtonHidden()
                 }
+                .sheet(isPresented: $isDatePickerPresented, onDismiss: {
+                    //
+                }, content: {
+                    DatePickerView(pickedDate: $viewModel.choosenDate)
+                        .presentationDetents([.medium])
+                        .presentationCornerRadius(16)
+                })
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.appBackground)

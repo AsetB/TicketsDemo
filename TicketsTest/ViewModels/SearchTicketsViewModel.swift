@@ -23,6 +23,7 @@ class SearchTicketsViewModel: ObservableObject {
             saveDestination()
         }
     }
+    @Published var choosenDate: String = ""
     
     let ticketService: TicketServiceProtocol
     
@@ -30,6 +31,13 @@ class SearchTicketsViewModel: ObservableObject {
         self.ticketService = ticketService
         loadFrom()
         loadDestination()
+        loadDate()
+    }
+    
+    func loadDate() {
+        if let savedDate = UserDefaults.standard.string(forKey: "savedDate") {
+            choosenDate = savedDate
+        }
     }
     
     func fetchTickets() {

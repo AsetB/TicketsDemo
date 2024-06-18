@@ -9,7 +9,7 @@ import Foundation
 
 enum URLs {
     static let baseURL: String = "https://run.mocky.io/v3/"
-    static let mainScreenURL: String = baseURL + "214a1713-bac0-4853-907c-a1dfc3cd05fd"
-    static let searchScreenURL: String = baseURL + "7e55bf02-89ff-4847-9eb7-7d83ef884017"
-    static let ticketsScreenURL: String = baseURL + "670c3d56-7f03-4237-9e34-d437a9e56ebf"
+    static let mainScreenURL: String = baseURL + "81467db8-96cf-420d-859f-b66b42a623d3"
+    static let searchScreenURL: String = baseURL + "0557fb72-77c6-44c5-b814-aa19649e4f83"
+    static let ticketsScreenURL: String = baseURL + "ab94c652-ee96-4152-b357-a196357230c8"
 }

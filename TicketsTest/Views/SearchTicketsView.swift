@@ -34,7 +34,7 @@ struct SearchTicketsView: View {
                             Text(viewModel.destination)
                                 .font(.addSFProDisplay(ofSize: 16, weight: .semibold))
                                 .foregroundStyle(Color.white)
-                            Text("23 февраля, 1 пассажир")
+                            Text("\(viewModel.choosenDate), 1 пассажир")
                                 .font(.addSFProDisplay(ofSize: 16, weight: .medium))
                                 .foregroundStyle(Color.searchDivider)
                         }

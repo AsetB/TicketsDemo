@@ -54,3 +54,46 @@ func timeDifference(from startTime: String, to endTime: String) -> String? {
         return String(format: "%.1fч", roundedHours)
     }
 }
+
+func currentDateFormatted(for date: Date) -> String? {
+    //let date = Date()
+    let dateFormatter = DateFormatter()
+    
+    //day and month
+    dateFormatter.locale = Locale(identifier: "ru_RU")
+    dateFormatter.dateFormat = "dd MMMM"
+    let fullStringDate = dateFormatter.string(from: date)
+    
+    //month
+    dateFormatter.dateFormat = "MMMM"
+    let fullMonth = dateFormatter.string(from: date)
+    let shortMonth = String(fullMonth.prefix(3))
+    
+    //day of the week
+    dateFormatter.dateFormat = "E"
+    let dayOfWeekString = dateFormatter.string(from: date).lowercased()
+    
+    let dateComponents = fullStringDate.components(separatedBy: " ")
+    let formattedDate = "\(dateComponents[0]) \(shortMonth), \(dayOfWeekString)"
+    
+    return formattedDate
+}
+
+func choosenDateFormatted(for date: Date) -> String {
+    //let date = Date()
+    let dateFormatter = DateFormatter()
+    
+    //day and month
+    dateFormatter.locale = Locale(identifier: "ru_RU")
+    dateFormatter.dateFormat = "dd MMMM"
+    let fullStringDate = dateFormatter.string(from: date)
+    
+    //month
+    dateFormatter.dateFormat = "MMMM"
+    let fullMonth = dateFormatter.string(from: date)
+    
+    let dateComponents = fullStringDate.components(separatedBy: " ")
+    let formattedDate = "\(dateComponents[0]) \(fullMonth)"
+    
+    return formattedDate
+}

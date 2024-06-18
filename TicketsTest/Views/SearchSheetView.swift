@@ -10,12 +10,10 @@ import SwiftUI
 struct SearchSheetView: View {
     
     @StateObject var viewModel: SearchSheetViewModel = SearchSheetViewModel()
-    //@State var from: String = "Минск"
-    //@State var destination: String = ""
     
     @State var isFromSelected = false
-    
-    @State var showSearchMainView: Bool = false
+    @State var isSearchMainViewPresented: Bool = false
+    @State var isPlugPresented: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -57,6 +55,11 @@ struct SearchSheetView: View {
                         .onSubmit {
                             checkFields()
                         }
+                        Image(.cross)
+                            .foregroundStyle(.white)
+                            .onTapGesture {
+                                viewModel.destination = ""
+                            }
                         
                     }
                 }
@@ -69,13 +72,65 @@ struct SearchSheetView: View {
                 
                 //TODO: КЛИКАБЕЛЬНЫЕ элементы
                 if isFromSelected {
-                    DestinationsListView()
-                        .padding(.horizontal, 16)
+                    VStack {
+                        DestinationsListItem(destinationCity: Destinations.istanbul, image: .istanbul)
+                            .onTapGesture {
+                                viewModel.destination = Destinations.istanbul
+                            }
+                        DestinationsListItem(destinationCity: Destinations.sochi, image: .sochi)
+                            .onTapGesture {
+                                viewModel.destination = Destinations.sochi
+                            }
+                        DestinationsListItem(destinationCity: Destinations.phuket, image: .phuket)
+                            .onTapGesture {
+                                viewModel.destination = Destinations.phuket
+                            }
+                    }
+                    .padding(16)
+                    .background(Color.outerGray1)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .padding(.horizontal, 16)
                 } else {
-                    FastActionsView()
-                        .padding(.horizontal, 16)
-                    DestinationsListView()
-                        .padding(.horizontal, 16)
+                    HStack(alignment: .top, spacing: 16) {
+                        FastActionsItem(icon: .command, title: FastActions.complexRoute, accentColor: .green1)
+                            .onTapGesture {
+                                isPlugPresented = true
+                            }
+                        FastActionsItem(icon: .globe, title: FastActions.anywhereRoute, accentColor: .blue1)
+                            .onTapGesture {
+                                viewModel.destination = FastActions.anywhereRoute
+                            }
+                        FastActionsItem(icon: .calendar, title: FastActions.weekend, accentColor: .darkBlue1)
+                            .onTapGesture {
+                                isPlugPresented = true
+                            }
+                        FastActionsItem(icon: .fire, title: FastActions.hotSale, accentColor: .red1)
+                            .onTapGesture {
+                                isPlugPresented = true
+                            }
+                    }
+                    .padding(.horizontal, 16)
+                    .navigationDestination(isPresented: $isPlugPresented) {
+                        PlugView()
+                    }
+                    VStack {
+                        DestinationsListItem(destinationCity: Destinations.istanbul, image: .istanbul)
+                            .onTapGesture {
+                                viewModel.destination = Destinations.istanbul
+                            }
+                        DestinationsListItem(destinationCity: Destinations.sochi, image: .sochi)
+                            .onTapGesture {
+                                viewModel.destination = Destinations.sochi
+                            }
+                        DestinationsListItem(destinationCity: Destinations.phuket, image: .phuket)
+                            .onTapGesture {
+                                viewModel.destination = Destinations.phuket
+                            }
+                    }
+                    .padding(16)
+                    .background(Color.outerGray1)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .padding(.horizontal, 16)
                 }
                 
 //                NavigationLink(destination: SearchMainView(), isActive: $showSearchMainView) {
@@ -84,13 +139,9 @@ struct SearchSheetView: View {
             }
             .frame(maxHeight: .infinity, alignment: .top)
             .background(Color.outerGray3)
-            .fullScreenCover(isPresented: $showSearchMainView, content: {
+            .fullScreenCover(isPresented: $isSearchMainViewPresented, content: {
                 SearchMainView()
             })
-//            .navigationDestination(isPresented: $showSearchMainView) {
-//                SearchMainView()
-//                    .navigationBarBackButtonHidden()
-//            }
         }
         .onAppear {
             viewModel.loadRoutes()
@@ -101,7 +152,7 @@ struct SearchSheetView: View {
     
     private func checkFields() {
         if !viewModel.from.isEmpty && !viewModel.destination.isEmpty {
-            showSearchMainView = true
+            isSearchMainViewPresented = true
         }
     }
 }

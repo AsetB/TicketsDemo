@@ -24,12 +24,30 @@ class SearchMainViewModel: ObservableObject {
         }
     }
     
+    @Published var choosenDate: Date = Date.now {
+        didSet {
+            saveDate()
+        }
+    }
+    
     let flightService: FlightsServiceProtocol
     
     init(flightService: FlightsServiceProtocol = FlightsService()) {
         self.flightService = flightService
         loadFrom()
         loadDestination()
+        //Check text for cyrillic
+        $from
+            .sink { [weak self] value in
+                self?.filterText()
+            }
+            .store(in: &cancellables)
+        
+        $destination
+            .sink { [weak self] value in
+                self?.filterText()
+            }
+            .store(in: &cancellables)
     }
     
     func fetchFlights() {
@@ -70,5 +88,30 @@ class SearchMainViewModel: ObservableObject {
         if let savedFrom = UserDefaults.standard.string(forKey: DestinationKey.from.rawValue) {
             from = savedFrom
         }
+    }
+    
+    private func filterText() {
+        let cyrillicChars = CharacterSet(charactersIn: "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ-")
+        let filteredFrom = from.unicodeScalars.filter { cyrillicChars.contains($0) }
+        let filteredFromString = String(String.UnicodeScalarView(filteredFrom))
+        let filteredDestination = destination.unicodeScalars.filter { cyrillicChars.contains($0) }
+        let filteredDestinationString = String(String.UnicodeScalarView(filteredDestination))
+        
+        if filteredFromString != from {
+            DispatchQueue.main.async {
+                self.from = filteredFromString
+            }
+            
+        }
+        if filteredDestinationString != destination {
+            DispatchQueue.main.async {
+                self.destination = filteredDestinationString
+            }
+        }
+    }
+    
+    private func saveDate() {
+        let formattedChoosenDate = choosenDateFormatted(for: choosenDate)
+        UserDefaults.standard.set(formattedChoosenDate, forKey: "savedDate")
     }
 }

@@ -9,6 +9,8 @@ import Foundation
 import Combine
 
 class SearchSheetViewModel: ObservableObject {
+    private var cancellables = Set<AnyCancellable>()
+    
     @Published var from: String = "" {
         didSet {
             saveFrom()
@@ -21,10 +23,25 @@ class SearchSheetViewModel: ObservableObject {
     }
     
     init() {
+        //route load
         loadFrom()
         loadDestination()
+        
+        //Check text for cyrillic
+        $from
+            .sink { [weak self] value in
+                self?.filterText()
+            }
+            .store(in: &cancellables)
+        
+        $destination
+            .sink { [weak self] value in
+                self?.filterText()
+            }
+            .store(in: &cancellables)
     }
     
+    //Cache for enterd routes
     func loadRoutes() {
         loadFrom()
         loadDestination()
@@ -47,6 +64,27 @@ class SearchSheetViewModel: ObservableObject {
     func loadFrom() {
         if let savedFrom = UserDefaults.standard.string(forKey: DestinationKey.from.rawValue) {
             from = savedFrom
+        }
+    }
+    
+    //Text filtering
+    private func filterText() {
+        let cyrillicChars = CharacterSet(charactersIn: "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ-")
+        let filteredFrom = from.unicodeScalars.filter { cyrillicChars.contains($0) }
+        let filteredFromString = String(String.UnicodeScalarView(filteredFrom))
+        let filteredDestination = destination.unicodeScalars.filter { cyrillicChars.contains($0) }
+        let filteredDestinationString = String(String.UnicodeScalarView(filteredDestination))
+        
+        if filteredFromString != from {
+            DispatchQueue.main.async {
+                self.from = filteredFromString
+            }
+            
+        }
+        if filteredDestinationString != destination {
+            DispatchQueue.main.async {
+                self.destination = filteredDestinationString
+            }
         }
     }
 }
