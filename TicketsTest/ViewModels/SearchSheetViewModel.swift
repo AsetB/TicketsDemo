@@ -30,6 +30,7 @@ class SearchSheetViewModel: ObservableObject {
         
         //Check text for cyrillic
         $from
+            .removeDuplicates()
             .dropFirst(4)
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .sink {
@@ -40,6 +41,7 @@ class SearchSheetViewModel: ObservableObject {
             .store(in: &cancellables)
         
         $destination
+            .removeDuplicates()
             .dropFirst(4)
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .sink {

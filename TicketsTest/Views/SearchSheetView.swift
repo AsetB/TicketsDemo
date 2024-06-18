@@ -137,6 +137,10 @@ struct SearchSheetView: View {
             .background(Color.outerGray3)
             .fullScreenCover(isPresented: $viewModel.isSearchMainViewPresented, content: {
                 SearchMainView()
+                    .onDisappear(perform: {
+                        viewModel.destination = ""
+                        viewModel.loadRoutes()
+                    })
             })
         }
         .onAppear {
