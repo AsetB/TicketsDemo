@@ -132,14 +132,10 @@ struct SearchSheetView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .padding(.horizontal, 16)
                 }
-                
-//                NavigationLink(destination: SearchMainView(), isActive: $showSearchMainView) {
-//                    EmptyView()
-//                }
             }
             .frame(maxHeight: .infinity, alignment: .top)
             .background(Color.outerGray3)
-            .fullScreenCover(isPresented: $isSearchMainViewPresented, content: {
+            .fullScreenCover(isPresented: $viewModel.isSearchMainViewPresented, content: {
                 SearchMainView()
             })
         }
@@ -152,7 +148,7 @@ struct SearchSheetView: View {
     
     private func checkFields() {
         if !viewModel.from.isEmpty && !viewModel.destination.isEmpty {
-            isSearchMainViewPresented = true
+            viewModel.isSearchMainViewPresented = true
         }
     }
 }

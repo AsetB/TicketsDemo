@@ -21,6 +21,7 @@ class SearchSheetViewModel: ObservableObject {
             saveDestination()
         }
     }
+    @Published var isSearchMainViewPresented: Bool = false
     
     init() {
         //route load
@@ -29,18 +30,39 @@ class SearchSheetViewModel: ObservableObject {
         
         //Check text for cyrillic
         $from
-            .sink { [weak self] value in
+            .dropFirst(4)
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .sink {
+                [weak self] value in
                 self?.filterText()
+                self?.textDidChange()
             }
             .store(in: &cancellables)
         
         $destination
-            .sink { [weak self] value in
+            .dropFirst(4)
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .sink {
+                [weak self] value in
                 self?.filterText()
+                self?.textDidChange()
             }
             .store(in: &cancellables)
+        
     }
     
+    private func textDidChange() {
+        let cyrillicChars = CharacterSet(charactersIn: "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ-")
+        let fromFiltered = from.unicodeScalars.allSatisfy { cyrillicChars.contains($0) }
+        let destinationFiltered = destination.unicodeScalars.allSatisfy { cyrillicChars.contains($0) }
+        
+        
+        if fromFiltered && destinationFiltered && !from.isEmpty && !destination.isEmpty {
+            isSearchMainViewPresented = true
+        } else {
+            isSearchMainViewPresented = false
+        }
+    }
     //Cache for enterd routes
     func loadRoutes() {
         loadFrom()
@@ -69,22 +91,24 @@ class SearchSheetViewModel: ObservableObject {
     
     //Text filtering
     private func filterText() {
-        let cyrillicChars = CharacterSet(charactersIn: "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ-")
-        let filteredFrom = from.unicodeScalars.filter { cyrillicChars.contains($0) }
-        let filteredFromString = String(String.UnicodeScalarView(filteredFrom))
-        let filteredDestination = destination.unicodeScalars.filter { cyrillicChars.contains($0) }
-        let filteredDestinationString = String(String.UnicodeScalarView(filteredDestination))
-        
-        if filteredFromString != from {
-            DispatchQueue.main.async {
-                self.from = filteredFromString
+        if !from.isEmpty && !destination.isEmpty {
+            let cyrillicChars = CharacterSet(charactersIn: "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ-")
+            let filteredFrom = from.unicodeScalars.filter { cyrillicChars.contains($0) }
+            let filteredFromString = String(String.UnicodeScalarView(filteredFrom))
+            let filteredDestination = destination.unicodeScalars.filter { cyrillicChars.contains($0) }
+            let filteredDestinationString = String(String.UnicodeScalarView(filteredDestination))
+            
+            if filteredFromString != from {
+                DispatchQueue.main.async {
+                    self.from = filteredFromString
+                }
+            }
+            if filteredDestinationString != destination {
+                DispatchQueue.main.async {
+                    self.destination = filteredDestinationString
+                }
             }
             
-        }
-        if filteredDestinationString != destination {
-            DispatchQueue.main.async {
-                self.destination = filteredDestinationString
-            }
         }
     }
 }
